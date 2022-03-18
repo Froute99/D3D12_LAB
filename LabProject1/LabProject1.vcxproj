@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{09057e73-c729-423c-b640-15b179358612}</ProjectGuid>
-    <RootNamespace>LabProject0</RootNamespace>
+    <ProjectGuid>{a36e43b7-526f-4026-9b74-86691fe73798}</ProjectGuid>
+    <RootNamespace>LabProject1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -143,23 +143,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="LabProject0.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="LabProject1.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LabProject0.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="LabProject1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LabProject0.rc" />
+    <ResourceCompile Include="LabProject1.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="LabProject0.ico" />
+    <Image Include="LabProject1.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
