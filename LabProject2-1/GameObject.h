@@ -56,7 +56,6 @@ namespace _3DLab {
 		}
 
 	public:
-		// 메쉬의 정점 하나를 게임 객체의 위치와 방향을 사용하여 월드 좌표 변환
 		Point3D WorldTransform(Point3D& model);
 
 		virtual void Animate(float elapsedTime);

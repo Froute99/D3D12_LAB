@@ -30,15 +30,15 @@ namespace _3DLab {
 		void SetPosition(float x, float y, float z) {
 			xPosition = x; yPosition = y; zPosition = z;
 		}
-		void SetRotation(float fPitch, float fYaw, float fRoll) {
-			xRotation = fPitch; yRotation = fYaw; zRotation = fRoll;
+		void SetRotation(float pitch, float yaw, float roll) {
+			xRotation = pitch; yRotation = yaw; zRotation = roll;
 		}
 
-		void SetViewport(int xStart, int yStart, int nWidth, int nHeight);
-		void SetFOVAngle(float fFOVAngle);
+		void SetViewport(int xStart, int yStart, int width, int height);
+		void SetFOVAngle(float fovAngle);
 
 		void Move(float x, float y, float z);
-		void Rotate(float fPitch, float fYaw, float fRoll);
+		void Rotate(float pitch, float yaw, float roll);
 
 	private:
 		float xPosition = 0.f;
