@@ -111,4 +111,52 @@ namespace _3DLab {
 			}
 		}
 	}
+
+	CubeMesh::CubeMesh(float width, float height, float depth)
+		: Mesh(6) {
+		float halfWidth = width * 0.5f;
+		float halfHeight = height * 0.5f;
+		float halfDepth = depth * 0.5f;
+
+		Polygon* pFrontFace = new Polygon(4);
+		pFrontFace->SetVertex(0, Vertex(-halfWidth, +halfHeight, +halfDepth));
+		pFrontFace->SetVertex(1, Vertex(+halfWidth, +halfHeight, -halfDepth));
+		pFrontFace->SetVertex(2, Vertex(+halfWidth, -halfHeight, -halfDepth));
+		pFrontFace->SetVertex(3, Vertex(-halfWidth, -halfHeight, -halfDepth));
+		SetPolygon(0, pFrontFace);
+		Polygon* pTopFace = new Polygon(4);
+		pTopFace->SetVertex(0, Vertex(-halfWidth, +halfHeight, +halfDepth));
+		pTopFace->SetVertex(1, Vertex(+halfWidth, +halfHeight, +halfDepth));
+		pTopFace->SetVertex(2, Vertex(+halfWidth, +halfHeight, -halfDepth));
+		pTopFace->SetVertex(3, Vertex(-halfWidth, +halfHeight, -halfDepth));
+		SetPolygon(1, pTopFace);
+		Polygon* pBackFace = new Polygon(4);
+		pBackFace->SetVertex(0, Vertex(-halfWidth, -halfHeight, +halfDepth));
+		pBackFace->SetVertex(1, Vertex(+halfWidth, -halfHeight,	+halfDepth));
+		pBackFace->SetVertex(2, Vertex(+halfWidth, +halfHeight, +halfDepth));
+		pBackFace->SetVertex(3, Vertex(-halfWidth, +halfHeight, +halfDepth));
+		SetPolygon(2, pBackFace);
+		Polygon* pBottomFace = new Polygon(4);
+		pBottomFace->SetVertex(0, Vertex(-halfWidth, -halfHeight, -halfDepth));
+		pBottomFace->SetVertex(1, Vertex(+halfWidth, -halfHeight, -halfDepth));
+		pBottomFace->SetVertex(2, Vertex(+halfWidth, -halfHeight, +halfDepth));
+		pBottomFace->SetVertex(3, Vertex(-halfWidth, -halfHeight, +halfDepth));
+		SetPolygon(3, pBottomFace);
+		Polygon* pLeftFace = new Polygon(4);
+		pLeftFace->SetVertex(0, Vertex(-halfWidth, +halfHeight, +halfDepth));
+		pLeftFace->SetVertex(1, Vertex(-halfWidth, +halfHeight, -halfDepth));
+		pLeftFace->SetVertex(2, Vertex(-halfWidth, -halfHeight, -halfDepth));
+		pLeftFace->SetVertex(3, Vertex(-halfWidth, -halfHeight, +halfDepth));
+		SetPolygon(4, pLeftFace);
+		Polygon* pRightFace = new Polygon(4);
+		pRightFace->SetVertex(0, Vertex(+halfWidth, +halfHeight, -halfDepth));
+		pRightFace->SetVertex(1, Vertex(+halfWidth, +halfHeight, +halfDepth));
+		pRightFace->SetVertex(2, Vertex(+halfWidth, -halfHeight, +halfDepth));
+		pRightFace->SetVertex(3, Vertex(+halfWidth, -halfHeight, -halfDepth));
+		SetPolygon(5, pRightFace);
+	}
+
+	CubeMesh::~CubeMesh() {
+
+	}
 }
