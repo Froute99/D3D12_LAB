@@ -21,43 +21,38 @@ namespace _3DLab {
 		float yRotationSpeed = 0.f;
 		float zRotationSpeed = 0.f;
 
-		Mesh* ptrMesh = nullptr;
+		Mesh* m_pMesh = nullptr;
 
-		DWORD color = RGB(255, 0, 0);
+		DWORD m_color = RGB(255, 0, 0);
 
 	public:
-		void SetMesh(Mesh* ptrMesh) {
-			this->ptrMesh = ptrMesh;
-			if (ptrMesh) ptrMesh->AddRef();
+		void SetMesh(Mesh* m_pMesh) {
+			this->m_pMesh = m_pMesh;
+			if (m_pMesh) {
+				m_pMesh->AddRef();
+			}
 		}
-		void SetColor(DWORD color) {
-			this->color = color;
+
+		void SetColor(DWORD m_color) {
+			this->m_color = m_color;
 		}
+
 		void SetPosition(float x, float y, float z) {
-			xPosition = x;
-			yPosition = y;
-			zPosition = y;
+			xPosition = x; yPosition = y; zPosition = y;
 		}
 		void SetRotation(float x, float y, float z) {
-			xRotation = x;
-			yRotation = y;
-			zRotation = z;
+			xRotation = x; yRotation = y; zRotation = z;
 		}
 		void SetRotationSpeed(float x, float y, float z) {
-			xRotationSpeed = x;
-			yRotationSpeed = y;
-			zRotationSpeed = z;
+			xRotationSpeed = x; yRotationSpeed = y; zRotationSpeed = z;
 		}
 
 		void Move(float x, float y, float z) {
-			xPosition += x;
-			yPosition += y;
-			zPosition += z;
+			xPosition += x; yPosition += y; zPosition += z;
 		}
+
 		void Rotate(float x, float y, float z) {
-			xRotation += x;
-			yRotation += y;
-			zRotation += z;
+			xRotation += x; yRotation += y; zRotation += z;
 		}
 
 	public:
