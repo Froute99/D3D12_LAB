@@ -7,7 +7,7 @@ namespace _3DLab {
 	Camera* GraphicsPipeline::m_ptrToCamera = nullptr;
 
 	Point3D GraphicsPipeline::Project(Point3D& model) {
-		Point3D world = m_ptrToGameObject->worldTransform(model);
+		Point3D world = m_ptrToGameObject->WorldTransform(model);
 		Point3D camera = m_ptrToCamera->CameraTransform(world);
 		Point3D projection = m_ptrToCamera->ProjectionTransform(camera);
 		return(projection);

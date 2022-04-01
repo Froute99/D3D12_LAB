@@ -59,6 +59,6 @@ namespace _3DLab {
 		Viewport* m_pViewport = nullptr;
 
 		float m_aspectRatio
-			= float(FRAMEBUFFER_WIDTH) / float(FRAMEBUFFER_HEIGHT);
+			= float(FRAME_BUFFER_WIDTH) / float(FRAME_BUFFER_HEIGHT);
 	};
 }

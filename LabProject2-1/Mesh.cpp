@@ -4,6 +4,21 @@
 #include "GraphicsPipeline.h"
 
 
+void Draw2DLine(HDC hDCFrameBuffer, _3DLab::Point3D& previousProject,
+	_3DLab::Point3D& currentProject) {
+	// 투영 좌표계의 2점을 화면 좌표계로 변환하고
+	// 변환된 두 점(픽셀)을 선분으로 그림
+	_3DLab::Point3D previous =
+		_3DLab::GraphicsPipeline::ScreenTransform(previousProject);
+
+	_3DLab::Point3D current =
+		_3DLab::GraphicsPipeline::ScreenTransform(currentProject);
+	::MoveToEx(hDCFrameBuffer, static_cast<long>(previous.x),
+		static_cast<long>(previous.y), nullptr);
+	::LineTo(hDCFrameBuffer, static_cast<long>(current.x),
+		static_cast<long>(current.y));
+}
+
 namespace _3DLab {
 	Polygon::Polygon(int numberOfVertices) {
 		this->m_numberOfVertices = numberOfVertices;
@@ -44,22 +59,6 @@ namespace _3DLab {
 			m_ptrToPolygons[indexNumber] = ptrToPolygon;
 		}
 	}
-
-	void Draw2DLine(HDC hDCFrameBuffer, Point3D& previousProject,
-		Point3D& currentProject) {
-		// 투영 좌표계의 2점을 화면 좌표계로 변환하고
-		// 변환된 두 점(픽셀)을 선분으로 그림
-		Point3D previous =
-			GraphicsPipeline::ScreenTransform(previousProject);
-
-		Point3D current =
-			GraphicsPipeline::ScreenTransform(currentProject);
-		::MoveToEx(hDCFrameBuffer, static_cast<long>(previous.x),
-			static_cast<long>(previous.y), nullptr);
-		::LineTo(hDCFrameBuffer, static_cast<long>(current.x),
-			static_cast<long>(current.y));
-	}
-
 
 	/*
 	 * 첫번째 for문 j와 i를 사용한 이유는 m_ptrToPolygons가 이중 포인터임
