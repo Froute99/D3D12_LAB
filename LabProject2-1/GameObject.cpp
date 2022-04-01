@@ -18,26 +18,26 @@ namespace _3DLab {
 		Point3D rotated = model;
 
 		if (pitch != 0.0f) {
-			rotated.y = float(world.y * cos(pitch) - world.z *
-				sin(pitch));
-			rotated.z = float(world.y * sin(pitch) + world.z *
-				cos(pitch));
+			rotated.y = float(world.y * cos(pitch) -
+				world.z * sin(pitch));
+			rotated.z = float(world.y * sin(pitch) +
+				world.z * cos(pitch));
 			world.y = rotated.y;
 			world.z = rotated.z;
 		}
 		if (yaw != 0.0f) {
-			rotated.x = float(world.x * cos(yaw) + world.z *
-				sin(yaw));
-			rotated.z = float(-world.x * sin(yaw) + world.z *
-				cos(yaw));
+			rotated.x = float(world.x * cos(yaw) +
+				world.z * sin(yaw));
+			rotated.z = float(-world.x * sin(yaw) +
+				world.z * cos(yaw));
 			world.x = rotated.x;
 			world.z = rotated.z;
 		}
 		if (roll != 0.0f) {
-			rotated.x = float(world.x * cos(roll) - world.y *
-				sin(roll));
-			rotated.y = float(world.x * sin(roll) + world.y *
-				cos(roll));
+			rotated.x = float(world.x * cos(roll) -
+				world.y * sin(roll));
+			rotated.y = float(world.x * sin(roll) +
+				world.y * cos(roll));
 			world.x = rotated.x;
 			world.y = rotated.y;
 		}
@@ -46,7 +46,7 @@ namespace _3DLab {
 		world.y += yPosition;
 		world.z += zPosition;
 
-		return(world);
+		return world;
 	}
 
 	void GameObject::Animate(float elapsedTime) {

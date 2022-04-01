@@ -4,9 +4,9 @@
 #include "GameFramwork.h"
 
 namespace _3DLab {
-	void GameFramework::OnCreate(HINSTANCE hInstance, HWND hMainWnd) {
+	void GameFramework::OnCreate(HINSTANCE hInstance, HWND hWnd) {
 		m_hInstance = hInstance;
-		m_hWnd = hMainWnd;
+		m_hWnd = hWnd;
 
 		//렌더링 화면을 생성한다
 		BuildFrameBuffer();
@@ -26,6 +26,7 @@ namespace _3DLab {
 
 	void GameFramework::BuildFrameBuffer() {
 		::GetClientRect(m_hWnd, &m_clientRect);
+
 		HDC hDC = ::GetDC(m_hWnd);
 		m_hDCFrameBuffer = ::CreateCompatibleDC(hDC);
 		m_hBitmapFrameBuffer = ::CreateCompatibleBitmap(hDC,
@@ -41,6 +42,13 @@ namespace _3DLab {
 		HPEN holdPen = (HPEN)::SelectObject(m_hDCFrameBuffer, hPen);
 		HBRUSH hBrush = ::CreateSolidBrush(color);
 		HBRUSH holdBrush = (HBRUSH)::SelectObject(m_hDCFrameBuffer, hBrush);
+		
+		::Rectangle(m_hDCFrameBuffer, m_clientRect.left,
+			m_clientRect.top, m_clientRect.right, m_clientRect.bottom);
+		::SelectObject(m_hDCFrameBuffer, holdBrush);
+		::SelectObject(m_hDCFrameBuffer, holdPen);
+		::DeleteObject(hPen);
+		::DeleteObject(hBrush);
 	}
 	
 	void GameFramework::PresentFrameBuffer() {
