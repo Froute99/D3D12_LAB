@@ -13,10 +13,8 @@ void Draw2DLine(HDC hDCFrameBuffer, _3DLab::Point3D& previousProject,
 
 	_3DLab::Point3D current =
 		_3DLab::GraphicsPipeline::ScreenTransform(currentProject);
-	::MoveToEx(hDCFrameBuffer, static_cast<long>(previous.x),
-		static_cast<long>(previous.y), nullptr);
-	::LineTo(hDCFrameBuffer, static_cast<long>(current.x),
-		static_cast<long>(current.y));
+	::MoveToEx(hDCFrameBuffer, (long)previous.x, (long)previous.y, NULL);
+	::LineTo(hDCFrameBuffer, (long)current.x, (long)current.y);
 }
 
 namespace _3DLab {
@@ -89,25 +87,24 @@ namespace _3DLab {
 
 			// 다각형을 구성하는 모든 정점들을 원근 투영 변환하고 선분으로 렌더링
 			for (int i = 1; i < numberOfVertices; ++i) {
-				Point3D currentProject =
-					GraphicsPipeline::Project(vertices[i].m_position);
+				Point3D currentProject = GraphicsPipeline::Project(vertices[i].m_position);
 				// 원근 투영된 점이 투영 사각형에 포함되는지 계산
 				currentInside =
 					(-1.f <= currentProject.x) && (currentProject.x <= 1.f)
 					&& (-1.f <= currentProject.y) && (currentProject.y <= 1.f);
 				// 원근 투영된 점이 투영 사각형에 포함되면 이전 점과 현재 점을 선분으로 그림
 				if (((previousProject.z >= 0.f) || (currentProject.z >= 0.f))
-					&& (currentInside || previousInside)) {
+					&& (previousInside || currentInside)) {
 					::Draw2DLine(hDCFrameBuffer, previousProject, currentProject);
-					previousProject = currentProject;
-					previousInside = currentInside;
 				}
+				previousProject = currentProject;
+				previousInside = currentInside;
+				// 다각형의 마지막 vertex와 첫번째 vertex를 선분으로 그림
+			}
 
-				// 다각형의 마지막 vertex와 첫번째 vertex를 선분으르 그림
-				if (((previousProject.z >= 0.f) || (initialProject.z >= 0.f))
-					&& (initialInside || previousInside)) {
-					::Draw2DLine(hDCFrameBuffer, previousProject, initialProject);
-				}
+			if (((previousProject.z >= 0.f) || (initialProject.z >= 0.f))
+				&& (initialInside || previousInside)) {
+				::Draw2DLine(hDCFrameBuffer, previousProject, initialProject);
 			}
 		}
 	}
