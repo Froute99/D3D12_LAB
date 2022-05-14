@@ -1,7 +1,7 @@
 // LabProject3.cpp : Defines the entry point for the application.
 //
 
-#include "framework.h"
+#include "stdafx.h"
 #include "LabProject3.h"
 
 #define MAX_LOADSTRING 100
