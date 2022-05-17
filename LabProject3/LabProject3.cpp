@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "LabProject3.h"
+#include "GameFramework.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,6 +17,8 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+CGameFramework gGameFramework;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -42,12 +45,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MSG msg;
 
 	// Main message loop:
-	while (GetMessage(&msg, nullptr, 0, 0)) {
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+	while (true) {
+		if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			if (!::TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
+			}
+		}
+		else {
+			gGameFramework.FrameAdvance();
 		}
 	}
+	gGameFramework.OnDestroy();
 
 	return (int)msg.wParam;
 }
@@ -73,7 +82,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LABPROJECT3));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_LABPROJECT3);
+	// 주 윈도우의 메뉴가 나타나지 않도록 한다.
+	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -94,20 +104,22 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance; // Store instance handle in our global variable
 
-	DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_BORDER;
-	RECT rc = { 0,0,640,480 };
-	AdjustWindowRect(&rc, style, FALSE);
+	RECT rc = { 0,0,FRAME_BUFFER_WIDTH,FRAME_BUFFER_HEIGHT };
+	DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_BORDER;
+	AdjustWindowRect(&rc, dwStyle, FALSE);
 
-	HWND hWnd = CreateWindowW(szWindowClass, szTitle, style,
+	HWND hMainWnd = CreateWindowW(szWindowClass, szTitle, dwStyle,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
 		nullptr, nullptr, hInstance, nullptr);
 
-	if (!hWnd) {
+	if (!hMainWnd) {
 		return FALSE;
 	}
 
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	gGameFramework.OnCreate(hInstance, hMainWnd);
+
+	ShowWindow(hMainWnd, nCmdShow);
+	UpdateWindow(hMainWnd);
 
 	return TRUE;
 }
@@ -125,30 +137,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
-	case WM_COMMAND: {
-		int wmId = LOWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId) {
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-	}
-				   break;
-	case WM_PAINT: {
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hWnd, &ps);
-		// TODO: Add any drawing code that uses hdc here...
-		EndPaint(hWnd, &ps);
-	}
-				 break;
+	case WM_SIZE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MOUSEMOVE:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+		gGameFramework.OnProcessingWindowMessage(hWnd, message, wParam, lParam);
+		break;
 	case WM_DESTROY:
-		PostQuitMessage(0);
+		::PostQuitMessage(0);
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

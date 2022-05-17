@@ -17,7 +17,7 @@ CGameFramework::CGameFramework() {
 
 	m_pd3dDepthStencilBuffer = nullptr;
 	m_pd3dRtvDescriptorHeap = nullptr;
-	m_nDtvDescriptorIncrementSize = 0;
+	m_nDsvDescriptorIncrementSize = 0;
 
 	m_nSwapChainBufferIndex = 0;
 	
@@ -61,8 +61,8 @@ void CGameFramework::OnDestroy() {
 	
 	if (m_pd3dDepthStencilBuffer)
 		m_pd3dDepthStencilBuffer->Release();
-	if (m_pd3dDtvDescriptorHeap)
-		m_pd3dDtvDescriptorHeap->Release();
+	if (m_pd3dDsvDescriptorHeap)
+		m_pd3dDsvDescriptorHeap->Release();
 
 	if (m_pd3dCommandAllocator)
 		m_pd3dCommandAllocator->Release();
@@ -238,6 +238,16 @@ void CGameFramework::CreateRtvAndDsvDescriptorHeaps() {
 	// 렌더 타겟 서술자 힙의 원소의 크기를 저장한다.
 	m_nRtvDescriptorIncrementSize =
 		m_pd3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+	// 깊이-스텐실 서술자 힙(서술자의 개수는 1)을 생성한다.
+	d3dDescriptorHeapDesc.NumDescriptors = 1;
+	d3dDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	hResult = m_pd3dDevice->CreateDescriptorHeap(&d3dDescriptorHeapDesc,
+		__uuidof(ID3D12DescriptorHeap), (void**)&m_pd3dDsvDescriptorHeap);
+
+	// 깊이-스텐실 서술자 힙의 원소의 크기를 저장한다.
+	m_nDsvDescriptorIncrementSize =
+		m_pd3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 }
 
 void CGameFramework::CreateRenderTargetViews() {
@@ -285,7 +295,7 @@ void CGameFramework::CreateDepthStencilView() {
 
 	// 깊이-스텐실 버퍼 뷰를 생성한다.
 	D3D12_CPU_DESCRIPTOR_HANDLE d3dDsvCPUDescriptorHandle =
-		m_pd3dDtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+		m_pd3dDsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	m_pd3dDevice->CreateDepthStencilView(m_pd3dDepthStencilBuffer, nullptr,
 		d3dDsvCPUDescriptorHandle);
 }
@@ -410,7 +420,7 @@ void CGameFramework::FrameAdvance() {
 
 	// 깊이-스텐실 서술자의 CPU 주소를 계산한다.
 	D3D12_CPU_DESCRIPTOR_HANDLE d3dDsvCPUDescriptorHandle =
-		m_pd3dDtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+		m_pd3dDsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	// 원하는 값으로 깊이-스텐실(뷰)을 지운다.
 	m_pd3dCommandList->ClearDepthStencilView(d3dDsvCPUDescriptorHandle,
 		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.f, 0, 0, nullptr);
@@ -445,7 +455,7 @@ void CGameFramework::FrameAdvance() {
 	dxgiPresentParameters.pDirtyRects = nullptr;
 	dxgiPresentParameters.pScrollRect = nullptr;
 	dxgiPresentParameters.pScrollOffset = nullptr;
-	m_pdxgiSwapChain->Present(1, 0, &dxgiPresentParameters);
+	m_pdxgiSwapChain->Present1(1, 0, &dxgiPresentParameters);
 
 	m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
 }
