@@ -38,8 +38,8 @@ private:
 
 	// 깊이-스텐실 버퍼, 서술자 힙 인터페이스 포인터, 깊이-스텐실 서술자 원소의 크기이다.
 	ID3D12Resource* m_pd3dDepthStencilBuffer;
-	ID3D12DescriptorHeap* m_pd3dDtvDescriptorHeap;
-	UINT m_nDtvDescriptorIncrementSize;
+	ID3D12DescriptorHeap* m_pd3dDsvDescriptorHeap;
+	UINT m_nDsvDescriptorIncrementSize;
 
 	// 명령 큐, 명령 할당자, 명령 리스트 인터페이스 포인터이다.
 	ID3D12CommandQueue* m_pd3dCommandQueue;
@@ -59,10 +59,7 @@ private:
 	D3D12_RECT m_d3dScissorRect;
 
 
-public:
-	CGameFramework();
-	~CGameFramework();
-
+public:;
 	// 프레임워크를 초기화하는 함수이다(주 윈도우가 생성되면 호출된다)
 	bool OnCreate(HINSTANCE hInstance, HWND hMainWnd);
 	
