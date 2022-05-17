@@ -414,6 +414,40 @@ void CGameFramework::FrameAdvance() {
 	// 원하는 값으로 깊이-스텐실(뷰)을 지운다.
 	m_pd3dCommandList->ClearDepthStencilView(d3dDsvCPUDescriptorHandle,
 		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.f, 0, 0, nullptr);
+
+	// 렌더 타겟 뷰(서술자)와 깊이-스텐실 뷰(서술자)를 출력-병합 단계(OM)에 연결한다.
+	m_pd3dCommandList->OMSetRenderTargets(1, &d3dRtvCPUDescriptorHandle, TRUE,
+		&d3dDsvCPUDescriptorHandle);
+
+	// 렌더링 코드는 여기에 추가될 것이다.
+	
+	/* 현재 렌더 타겟에 대한 렌더링이 끝나기를 기다린다. GPU가 렌더 타겟(버퍼)을 더 이상
+	사용하지 않으면 렌더 타겟의 상태는 프리젠트 상태(D3D12_RESOURCE_STATE_PRESENT)로 바뀔 것이다. */
+	d3dResourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	d3dResourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	d3dResourceBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	m_pd3dCommandList->ResourceBarrier(1, &d3dResourceBarrier);
+
+	// 명령 리스트를 닫힌 상태로 만든다.
+	hResult = m_pd3dCommandList->Close();
+
+	// 명령 리스트를 명령 큐에 추가하여 실행한다.
+	ID3D12CommandList* ppd3dCommandLists[] = { m_pd3dCommandList };
+	m_pd3dCommandQueue->ExecuteCommandLists(1, ppd3dCommandLists);
+
+	// GPU가 모든 명령 리스트를 실행할 때 까지 기다린다.
+	WaitForGpuComplete();
+
+	/* 스왑체인을 프리젠트한다. 프리젠트를 하면 현재 렌더 타겟(후면버퍼)의 내용이 전먼버퍼로
+	옮겨지고 렌더 타겟 인덱스가 바뀔 것이다. */
+	DXGI_PRESENT_PARAMETERS dxgiPresentParameters;
+	dxgiPresentParameters.DirtyRectsCount = 0;
+	dxgiPresentParameters.pDirtyRects = nullptr;
+	dxgiPresentParameters.pScrollRect = nullptr;
+	dxgiPresentParameters.pScrollOffset = nullptr;
+	m_pdxgiSwapChain->Present(1, 0, &dxgiPresentParameters);
+
+	m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
 }
 
 CGameFramework::~CGameFramework() {
