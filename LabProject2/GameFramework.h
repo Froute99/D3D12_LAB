@@ -66,7 +66,7 @@ private:
 	UINT m_nSwapChainBufferIndex;
 
 	// 렌더 타겟 버퍼 인터페이스 포인터
-	ID3D12Resource* m_ppd3dRenderTargetBuffers[m_nSwapChainBuffers];
+	ID3D12Resource* m_ppd3dSwapChainBackBuffers[m_nSwapChainBuffers];
 	// 서술자 힙 인터페이스 포인터
 	ID3D12DescriptorHeap* m_pd3dRtvDescriptorHeap;
 	// 렌더 타겟 서술자 원소의 크기 rtv = render target view

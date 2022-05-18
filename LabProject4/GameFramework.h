@@ -21,9 +21,8 @@ private:
 	// Direct3D 디바이스 인터페이스에 대한 포인터이다. 주로 리소스를 생성하기 위하여 필요하다.
 	ID3D12Device* m_pd3dDevice;
 
-	bool m_bMsaa4xEnable = false;
-
 	// MSAA 다중 샘플링을 활성화하고 다중 샘플링 레벨을 설정한다.
+	bool m_bMsaa4xEnable = false;
 	UINT m_nMsaa4xQualityLevels = 0;
 
 	// 스왑 체인의 후면 버퍼의 개수이다.
@@ -97,5 +96,7 @@ public:
 		WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK OnProcessingWindowMessage(HWND hWnd, UINT nMessageID,
 		WPARAM wParam, LPARAM lParam);
+
+	void ChangeSwapChainState();
 };
 

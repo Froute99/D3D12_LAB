@@ -11,7 +11,7 @@ CGameFramework::CGameFramework() {
 	m_pd3dCommandList = nullptr;
 
 	for (int i = 0; i < m_nSwapChainBuffers; ++i)
-		m_ppd3dRenderTargetBuffers[i] = nullptr;
+		m_ppd3dSwapChainBackBuffers[i] = nullptr;
 	m_pd3dRtvDescriptorHeap = nullptr;
 	m_nRtvDescriptorIncrementSize = 0;
 
@@ -27,6 +27,8 @@ CGameFramework::CGameFramework() {
 
 	m_nWndClientWidth = FRAME_BUFFER_WIDTH;
 	m_nWndClientHeight = FRAME_BUFFER_HEIGHT;
+
+	_tcscpy_s(m_pszFrameRate, _T("LabProject ("));
 }
 
 bool CGameFramework::OnCreate(HINSTANCE hInstance, HWND hMainWnd) {
@@ -56,8 +58,8 @@ void CGameFramework::OnDestroy() {
 	::CloseHandle(m_hFenceEvent);
 
 	for (int i = 0; i < m_nSwapChainBuffers; ++i)
-		if (m_ppd3dRenderTargetBuffers[i])
-			m_ppd3dRenderTargetBuffers[i]->Release();
+		if (m_ppd3dSwapChainBackBuffers[i])
+			m_ppd3dSwapChainBackBuffers[i]->Release();
 	
 	if (m_pd3dDepthStencilBuffer)
 		m_pd3dDepthStencilBuffer->Release();
@@ -255,8 +257,8 @@ void CGameFramework::CreateRenderTargetViews() {
 		m_pd3dRtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	for (UINT i = 0; i < m_nSwapChainBuffers; ++i) {
 		m_pdxgiSwapChain->GetBuffer(i, __uuidof(ID3D12Resource),
-			(void**)&m_ppd3dRenderTargetBuffers[i]);
-		m_pd3dDevice->CreateRenderTargetView(m_ppd3dRenderTargetBuffers[i],
+			(void**)&m_ppd3dSwapChainBackBuffers[i]);
+		m_pd3dDevice->CreateRenderTargetView(m_ppd3dSwapChainBackBuffers[i],
 			nullptr, d3dRtvCPUDesciptorHandle);
 		d3dRtvCPUDesciptorHandle.ptr += m_nRtvDescriptorIncrementSize;
 	}
@@ -382,6 +384,9 @@ void CGameFramework::WaitForGpuComplete() {
 }
 
 void CGameFramework::FrameAdvance() {
+	// 타이머의 시간이 갱신되도록 하고 프레임 레이트를 계산한다.
+	m_GameTimer.Tick(0.f);
+
 	ProcessInput();
 
 	AnimateObjects();
@@ -397,7 +402,7 @@ void CGameFramework::FrameAdvance() {
 	d3dResourceBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	d3dResourceBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	d3dResourceBarrier.Transition.pResource =
-		m_ppd3dRenderTargetBuffers[m_nSwapChainBufferIndex];
+		m_ppd3dSwapChainBackBuffers[m_nSwapChainBufferIndex];
 	d3dResourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	d3dResourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	d3dResourceBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
@@ -458,6 +463,13 @@ void CGameFramework::FrameAdvance() {
 	m_pdxgiSwapChain->Present1(1, 0, &dxgiPresentParameters);
 
 	m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
+
+
+	//m_pdxgiSwapChain->Present(0, 0);
+	// 프레임 레이트를 가져와서 윈도우 타이틀로 출력
+	// +12는 LapProject ( 뒤에서부터 출력한다는 뜻
+	m_GameTimer.GetFrameRate(m_pszFrameRate + 12, 37);
+	::SetWindowText(m_hWnd, m_pszFrameRate);
 }
 
 CGameFramework::~CGameFramework() {
