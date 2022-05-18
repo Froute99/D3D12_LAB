@@ -219,7 +219,8 @@ void CGameFramework::CreateDirect3DDevice() {
 	// 펜스를 생성하고 펜스 값을 0으로 설정한다.
 	hResult = m_pd3dDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, __uuidof(ID3D12Fence),
 		(void**)&m_pd3dFence);
-	m_nFenceValue = 0;
+	for (UINT i = 0; i < m_nSwapChainBuffers; ++i)
+		m_nFenceValues[i] = 0;
 
 	/* 펜스를 동기화를 위한 이벤트 객체를 생성한다(이벤트 객체의 초기값을 FALSE이다).
 	이벤트가 실행되면(Signal) 이벤트의 값을 자동적으로 FALSE가 되도록 생성한다. */
@@ -493,7 +494,7 @@ void CGameFramework::FrameAdvance() {
 	// 원하는 색상으로 렌더 타겟(뷰)를 지운다.
 	float pfClearColor[4] = { 0.f,0.125f,0.3f,1.f };
 	m_pd3dCommandList->ClearRenderTargetView(d3dRtvCPUDescriptorHandle,
-		pfClearColor/*Colors::Azure*/, 0, nullptr);
+		pfClearColor, 0, nullptr);
 
 	// 원하는 값으로 깊이-스텐실(뷰)을 지운다.
 	m_pd3dCommandList->ClearDepthStencilView(d3dDsvCPUDescriptorHandle,
@@ -523,17 +524,20 @@ void CGameFramework::FrameAdvance() {
 
 	/* 스왑체인을 프리젠트한다. 프리젠트를 하면 현재 렌더 타겟(후면버퍼)의 내용이 전먼버퍼로
 	옮겨지고 렌더 타겟 인덱스가 바뀔 것이다. */
-	DXGI_PRESENT_PARAMETERS dxgiPresentParameters;
-	dxgiPresentParameters.DirtyRectsCount = 0;
-	dxgiPresentParameters.pDirtyRects = nullptr;
-	dxgiPresentParameters.pScrollRect = nullptr;
-	dxgiPresentParameters.pScrollOffset = nullptr;
-	m_pdxgiSwapChain->Present1(1, 0, &dxgiPresentParameters);
+	//DXGI_PRESENT_PARAMETERS dxgiPresentParameters;
+	//dxgiPresentParameters.DirtyRectsCount = 0;
+	//dxgiPresentParameters.pDirtyRects = nullptr;
+	//dxgiPresentParameters.pScrollRect = nullptr;
+	//dxgiPresentParameters.pScrollOffset = nullptr;
+	//m_pdxgiSwapChain->Present1(1, 0, &dxgiPresentParameters);
 
-	m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
+	//m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
+
+	m_pdxgiSwapChain->Present(0, 0);
+	
+	MoveToNextFrame();
 
 
-	//m_pdxgiSwapChain->Present(0, 0);
 	// 프레임 레이트를 가져와서 윈도우 타이틀로 출력
 	// +12는 LapProject ( 뒤에서부터 출력한다는 뜻
 	m_GameTimer.GetFrameRate(m_pszFrameRate + 12, 37);
