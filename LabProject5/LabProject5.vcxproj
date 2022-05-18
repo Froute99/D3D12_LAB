@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e169c455-438b-42b7-b8e4-a90dbfd4fc1b}</ProjectGuid>
-    <RootNamespace>LabProject4</RootNamespace>
+    <ProjectGuid>{cb7653da-96ff-434d-b93a-d3950d112a90}</ProjectGuid>
+    <RootNamespace>LabProject5</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -83,8 +83,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(SolutionDir)\temp\$(ProjectName)</IntDir>
     <OutDir>$(SolutionDir)\bin\$(ProjectName)</OutDir>
+    <IntDir>$(SolutionDir)\temp\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,22 +144,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameFramework.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="LabProject4.h" />
+    <ClInclude Include="LabProject5.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameFramework.cpp" />
-    <ClCompile Include="LabProject4.cpp" />
+    <ClCompile Include="LabProject5.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LabProject4.rc" />
+    <ResourceCompile Include="LabProject5.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="LabProject4.ico" />
+    <Image Include="LabProject5.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
