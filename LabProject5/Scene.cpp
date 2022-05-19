@@ -5,6 +5,10 @@ CScene::CScene() {
 
 }
 
+CScene::~CScene() {
+
+}
+
 void CScene::CreateGraphicsRootSignature(ID3D12Device* pd3dDevice) {
 	// 루트 시그니처를 생성한다.
 	D3D12_ROOT_SIGNATURE_DESC d3dRootSignatureDesc;
@@ -115,5 +119,39 @@ void CScene::ReleaseObjects() {
 		m_pd3dGraphicsRootSignature->Release();
 	if (m_pd3dPipelineState)
 		m_pd3dPipelineState->Release();
+}
+
+bool CScene::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID,
+	WPARAM wParam, LPARAM lParam) {
+	return false;
+}
+
+bool CScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID,
+	WPARAM wParam, LPARAM lParam) {
+	return false;
+}
+
+bool CScene::ProcessInput() {
+	return false;
+}
+
+void CScene::AnimateObjects(float fTimeElapsed) {
+
+}
+
+void CScene::PrepareRender(ID3D12GraphicsCommandList* pd3dCommandList) {
+	// 그래픽 루트 시그너처를 설정한다.
+	pd3dCommandList->SetGraphicsRootSignature(m_pd3dGraphicsRootSignature);
+	// 파이프라인 상태를 설정한다.
+	pd3dCommandList->SetPipelineState(m_pd3dPipelineState);
+	// 프리미티브 토폴로지(삼각형 리스트)를 설정한다.
+	pd3dCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+void CScene::Render(ID3D12GraphicsCommandList* pd3dCommandList) {
+	PrepareRender(pd3dCommandList);
+
+	// 정점 3개를 사용하여 렌더링한다.
+	pd3dCommandList->DrawInstanced(3, 1, 0, 0);
 }
 
