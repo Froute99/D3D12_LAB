@@ -9,6 +9,18 @@ CScene::~CScene() {
 
 }
 
+void CScene::BuildObjects(ID3D12Device* pd3dDevice) {
+	CreateGraphicsRootSignature(pd3dDevice);
+	CreateGraphicsPipelineState(pd3dDevice);
+}
+
+void CScene::ReleaseObjects() {
+	if (m_pd3dGraphicsRootSignature)
+		m_pd3dGraphicsRootSignature->Release();
+	if (m_pd3dPipelineState)
+		m_pd3dPipelineState->Release();
+}
+
 void CScene::CreateGraphicsRootSignature(ID3D12Device* pd3dDevice) {
 	// 루트 시그니처를 생성한다.
 	D3D12_ROOT_SIGNATURE_DESC d3dRootSignatureDesc;
@@ -109,18 +121,6 @@ void CScene::CreateGraphicsPipelineState(ID3D12Device* pd3dDevice) {
 		pd3dPixelShaderBlob->Release();
 }
 
-void CScene::BuildObjects(ID3D12Device* pd3dDevice) {
-	CreateGraphicsRootSignature(pd3dDevice);
-	CreateGraphicsPipelineState(pd3dDevice);
-}
-
-void CScene::ReleaseObjects() {
-	if (m_pd3dGraphicsRootSignature)
-		m_pd3dGraphicsRootSignature->Release();
-	if (m_pd3dPipelineState)
-		m_pd3dPipelineState->Release();
-}
-
 bool CScene::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID,
 	WPARAM wParam, LPARAM lParam) {
 	return false;
@@ -151,7 +151,7 @@ void CScene::PrepareRender(ID3D12GraphicsCommandList* pd3dCommandList) {
 void CScene::Render(ID3D12GraphicsCommandList* pd3dCommandList) {
 	PrepareRender(pd3dCommandList);
 
-	// 정점 3개를 사용하여 렌더링한다.
-	pd3dCommandList->DrawInstanced(3, 1, 0, 0);
+	// 정점 6개를 사용하여 렌더링한다.
+	pd3dCommandList->DrawInstanced(6, 1, 0, 0);
 }
 
