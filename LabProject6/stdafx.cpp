@@ -52,6 +52,13 @@ ID3D12Resource* CreateBufferResource(ID3D12Device* pd3dDevice,
 					D3D12_HEAP_FLAG_NONE, &d3dResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL,
 					__uuidof(ID3D12Resource), (void**)ppd3dUploadBuffer);
 
+				// 업로드 버퍼를 매핑하여 초기화 데이터를 업로드 버퍼에 복사한다.
+				D3D12_RANGE d3dReadRange = { 0,0 };
+				UINT8* pBufferDataBegin = NULL;
+				(*ppd3dUploadBuffer)->Map(0, &d3dReadRange, (void**)&pBufferDataBegin);
+				memcpy(pBufferDataBegin, pData, nBytes);
+				(*ppd3dUploadBuffer)->Unmap(0, NULL);
+
 				// 업로드 버퍼의 내용을 디폴트 버퍼에 복사한다.
 				pd3dCommandList->CopyResource(pd3dBuffer, *ppd3dUploadBuffer);
 

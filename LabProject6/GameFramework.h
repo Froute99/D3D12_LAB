@@ -70,19 +70,6 @@ public:
 	bool OnCreate(HINSTANCE hInstance, HWND hMainWnd);
 	void OnDestroy();
 
-	// 스왑 체인, 디바이스, 서술자 힙, 명령 큐/할당자/리스트를 생성하는 함수이다.
-	void CreateSwapChain();
-	void CreateRtvAndDsvDescriptorHeaps();
-	void CreateDirect3DDevice();
-	void CreateCommandQueueAndList();
-
-	// 전체화면 할때 만듦. 따라하기5
-	void ChangeSwapChainState();
-
-	// 렌더 타겟 뷰와 깊이-스텐실 뷰를 생성하는 함수이다.
-	void CreateRenderTargetViews();
-	void CreateDepthStencilView();
-
 	// 렌더링할 메쉬와 게임 객체를 생성하고 소멸하는 함수이다.
 	void BuildObjects();
 	void ReleaseObjects();
@@ -98,6 +85,19 @@ public:
 	// 따라하기6에서 만든 함수 WaitForGpuComplete 함수와 비슷한듯?
 	void MoveToNextFrame();
 
+	// 스왑 체인, 디바이스, 서술자 힙, 명령 큐/할당자/리스트를 생성하는 함수이다.
+	void CreateSwapChain();
+	void CreateRtvAndDsvDescriptorHeaps();
+	void CreateDirect3DDevice();
+	void CreateCommandQueueAndList();
+
+	// 전체화면 할때 만듦. 따라하기5
+	void ChangeSwapChainState();
+
+	// 렌더 타겟 뷰와 깊이-스텐실 뷰를 생성하는 함수이다.
+	void CreateRenderTargetViews();
+	void CreateDepthStencilView();
+
 	// 윈도우의 메시지(키보드, 마우스 입력)를 처리하는 함수이다.
 	void OnProcessingMouseMessage(HWND hWnd, UINT nMEssageID,
 		WPARAM wParam, LPARAM lParam);
@@ -105,6 +105,5 @@ public:
 		WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK OnProcessingWindowMessage(HWND hWnd, UINT nMessageID,
 		WPARAM wParam, LPARAM lParam);
-
 };
 
