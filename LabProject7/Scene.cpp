@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Shader.h"
 #include "Scene.h"
+#include "GameObject.h"
 
 CScene::CScene() {
 
@@ -12,42 +13,45 @@ CScene::~CScene() {
 
 void CScene::BuildObjects(ID3D12Device* pd3dDevice,
 	ID3D12GraphicsCommandList* pd3dCommandList) {
-	
+
 	// 그래픽 루트 시그너쳐를 생성한다.
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
-	// 씬을 그리기 위한 셰이더 객체를 생성한다.
-	m_nShaders = 1;
-	m_ppShaders = new CShader * [m_nShaders];
+	CTriangleMesh* pMesh = new CTriangleMesh(pd3dDevice, pd3dCommandList);
 
-	CShader* pShader = new CShader();
+	m_nObjects = 1;
+	m_ppObjects = new CGameObject * [m_nObjects];
+
+	CRotatingObject* pRotatingObject = new CRotatingObject();
+	pRotatingObject->SetMesh(pMesh);
+
+	CDiffusedShader* pShader = new CDiffusedShader();
 	pShader->CreateShader(pd3dDevice, m_pd3dGraphicsRootSignature);
-	pShader->BuildObjects(pd3dDevice, pd3dCommandList, NULL);
+	pShader->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
-	m_ppShaders[0] = pShader;
+	pRotatingObject->SetShader(pShader);
 
-	//CreateGraphicsPipelineState(pd3dDevice);
+	m_ppObjects[0] = pRotatingObject;
 }
 
 void CScene::ReleaseObjects() {
 	if (m_pd3dGraphicsRootSignature)
 		m_pd3dGraphicsRootSignature->Release();
 
-	if (m_ppShaders) {
-		for (int i = 0; i < m_nShaders; ++i) {
-			m_ppShaders[i]->ReleaseShaderVariables();
-			m_ppShaders[i]->ReleaseObjects();
-			m_ppShaders[i]->Release();
+	if (m_ppObjects) {
+		for (int i = 0; i < m_nObjects; ++i) {
+			if (m_ppObjects[i])
+				delete m_ppObjects[i];
 		}
-		delete[] m_ppShaders;
+		delete[] m_ppObjects;
 	}
 }
 
 void CScene::ReleaseUploadBuffers() {
-	if (m_ppShaders) {
-		for (int j = 0; j < m_nShaders; ++j) {
-			if (m_ppShaders[j])
-				m_ppShaders[j]->ReleaseUploadBuffers();
+	if (m_ppObjects) {
+		for (int j = 0; j < m_nObjects; ++j) {
+			if (m_ppObjects[j])
+				m_ppObjects[j]->ReleaseUploadBuffers();
 		}
 	}
 }
@@ -67,45 +71,47 @@ bool CScene::ProcessInput(UCHAR* pKeysBuffer) {
 }
 
 void CScene::AnimateObjects(float fTimeElapsed) {
-	for (int i = 0; i < m_nShaders; ++i) {
-		m_ppShaders[i]->AnimateObjects(fTimeElapsed);
+	for (int i = 0; i < m_nObjects; ++i) {
+		m_ppObjects[i]->Animate(fTimeElapsed);
 	}
 }
 
-//void CScene::PrepareRender(ID3D12GraphicsCommandList* pd3dCommandList) {
-//	// 그래픽 루트 시그너처를 설정한다.
-//	pd3dCommandList->SetGraphicsRootSignature(m_pd3dGraphicsRootSignature);
-//	// 파이프라인 상태를 설정한다.
-//	pd3dCommandList->SetPipelineState(m_pd3dPipelineState);
-//	// 프리미티브 토폴로지(삼각형 리스트)를 설정한다.
-//	pd3dCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-//}
-
-void CScene::Render(ID3D12GraphicsCommandList* pd3dCommandList) {
-	//PrepareRender(pd3dCommandList);
-
+void CScene::Render(ID3D12GraphicsCommandList* pd3dCommandList, CCamera* pCamera) {
+	pCamera->SetViewportAndScissorRects(pd3dCommandList);
 	// 그래픽 루트 시그너쳐를 파이프라인에 연결(설정)한다.
 	pd3dCommandList->SetGraphicsRootSignature(m_pd3dGraphicsRootSignature);
 
+	if (pCamera)
+		pCamera->UpdateShaderVariables(pd3dCommandList);
+
 	// 씬을 렌더링하는 것은 씬을 구성하는 셰이더(셰이더가 포함하는 객체)들을 렌더링하는 것이다.
-	for (int i = 0; i < m_nShaders; ++i) {
-		m_ppShaders[i]->Render(pd3dCommandList);
+	for (int i = 0; i < m_nObjects; ++i) {
+		if (m_ppObjects[i])
+			m_ppObjects[i]->Render(pd3dCommandList, pCamera);
 	}
-
-	//// 그래픽 루트 시그너처를 설정한다.
-	//pd3dCommandList->SetGraphicsRootSignature(m_pd3dGraphicsRootSignature);
-	//// 파이프라인 상태를 설정한다.
-	//pd3dCommandList->SetPipelineState(m_pd3dPipelineState);
-	//// 프리미티브 토폴로지(삼각형 리스트)를 설정한다.
-	//pd3dCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//// 정점 3개를 사용하여 렌더링한다.
-	//pd3dCommandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ID3D12RootSignature* CScene::CreateGraphicsRootSignature(ID3D12Device* pd3dDevice) {
 	ID3D12RootSignature* pd3dGraphicsRootSignature = NULL;
 
+	D3D12_ROOT_PARAMETER pd3dRootParameters[2];
+	pd3dRootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+	pd3dRootParameters[0].Constants.Num32BitValues = 16;
+	pd3dRootParameters[0].Constants.ShaderRegister = 0;
+	pd3dRootParameters[0].Constants.RegisterSpace = 0;
+	pd3dRootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	pd3dRootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+	pd3dRootParameters[1].Constants.Num32BitValues = 32;
+	pd3dRootParameters[1].Constants.ShaderRegister = 1;
+	pd3dRootParameters[1].Constants.RegisterSpace = 0;
+	pd3dRootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+	D3D12_ROOT_SIGNATURE_FLAGS d3dRootSignatureFlags =
+		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
 	// 매개변수가 없는 루트 시그너쳐를 생성한다.
 	D3D12_ROOT_SIGNATURE_DESC d3dRootSignatureDesc;
 	::ZeroMemory(&d3dRootSignatureDesc, sizeof(D3D12_ROOT_SIGNATURE_DESC));
@@ -113,8 +119,7 @@ ID3D12RootSignature* CScene::CreateGraphicsRootSignature(ID3D12Device* pd3dDevic
 	d3dRootSignatureDesc.pParameters = NULL;
 	d3dRootSignatureDesc.NumStaticSamplers = 0;
 	d3dRootSignatureDesc.pStaticSamplers = NULL;
-	d3dRootSignatureDesc.Flags =
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	d3dRootSignatureDesc.Flags = d3dRootSignatureFlags;
 
 	ID3DBlob* pd3dSignatureBlob = NULL;
 	ID3DBlob* pd3dErrorBlob = NULL;

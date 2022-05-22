@@ -1,6 +1,5 @@
 
 #pragma once
-#include "stdafx.h"
 
 // 정점을 표현하기 위한 클래스를 선언한다.
 class CVertex {

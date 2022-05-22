@@ -7,7 +7,6 @@
 // 이게 있으면 처음부터 전체화면
 //#define _WITH_SWAPCHAIN_FULLSCREEN_STATE
 
-//#include "targetver.h"
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files
 #include <windows.h>
@@ -57,7 +56,8 @@ extern ID3D12Resource* CreateBufferResource(ID3D12Device* pd3dDevice,
 
 
 // 3차원 벡터의 연산
-namespace Vector3 {
+namespace Vector3
+{
 	inline XMFLOAT3 XMVectorToFloat3(XMVECTOR& xmvVector) {
 		XMFLOAT3 xmf3Result;
 		XMStoreFloat3(&xmf3Result, xmvVector);
@@ -153,7 +153,8 @@ namespace Vector3 {
 }
 
 // 4차원 벡터의 연산
-namespace Vector4 {
+namespace Vector4
+{
 	inline XMFLOAT4 Add(XMFLOAT4& xmf4Vector1, XMFLOAT4& xmf4Vector2) {
 		XMFLOAT4 xmf4Result;
 		XMStoreFloat4(&xmf4Result, XMLoadFloat4(&xmf4Vector1) +
@@ -176,7 +177,8 @@ namespace Vector4 {
 }
 
 // 행렬의 연산
-namespace Matrix4x4 {
+namespace Matrix4x4
+{
 	inline XMFLOAT4X4 Identity() {
 		XMFLOAT4X4 xmmtx4x4Result;
 		XMStoreFloat4x4(&xmmtx4x4Result, XMMatrixIdentity());
@@ -196,9 +198,9 @@ namespace Matrix4x4 {
 		return xmmtx4x4Result;
 	}
 
-	inline XMFLOAT4X4 Multiply(XMMATRIX& xmmtxMatrix1, XMFLOAT4X4& xmmtx4x4Matrix2) {
+	inline XMFLOAT4X4 Multiply(XMFLOAT4X4& xmmtx4x4Matrix1, XMMATRIX& xmmtx4x4Matrix2) {
 		XMFLOAT4X4 xmmtx4x4Result;
-		XMStoreFloat4x4(&xmmtx4x4Result, xmmtxMatrix1 * XMLoadFloat4x4(&xmmtx4x4Matrix2));
+		XMStoreFloat4x4(&xmmtx4x4Result, XMLoadFloat4x4(&xmmtx4x4Matrix1) * xmmtx4x4Matrix2);
 		return xmmtx4x4Result;
 	}
 
