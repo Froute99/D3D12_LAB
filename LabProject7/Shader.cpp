@@ -88,7 +88,6 @@ D3D12_SHADER_BYTECODE CShader::CreateVertexShader(ID3DBlob** ppd3dShaderBlob) {
 	d3dShaderByteCode.pShaderBytecode = NULL;
 
 	return d3dShaderByteCode;
-	//return CompileShaderFromFile(L"Shaders.hlsl", "VSMain", "vs_5_1", ppd3dShaderBlob);
 }
 
 // 픽셀 셰이더 바이트 코드를 생성(컴파일)한다.
@@ -98,7 +97,6 @@ D3D12_SHADER_BYTECODE CShader::CreatePixelShader(ID3DBlob** ppd3dShaderBlob) {
 	d3dShaderByteCode.pShaderBytecode = NULL;
 
 	return d3dShaderByteCode;
-	//return CompileShaderFromFile(L"Shaders.hlsl", "PSMain", "ps_5_1", ppd3dShaderBlob);
 }
 
 // 셰이더 소스 코드를 컴파일하여 바이트 코드 구조체를 반환한다.
@@ -112,7 +110,7 @@ D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR* pszFileName,
 
 	ID3DBlob* pd3dErrorBlob = NULL;
 	HRESULT hResult = ::D3DCompileFromFile(pszFileName, NULL, NULL, pszShaderName,
-		pszShaderProfile, nCompileFlags, 0, ppd3dShaderBlob, NULL);
+		pszShaderProfile, nCompileFlags, 0, ppd3dShaderBlob, &pd3dErrorBlob);
 	char* pErrorString = NULL;
 	if (pd3dErrorBlob)
 		pErrorString = (char*)pd3dErrorBlob->GetBufferPointer();

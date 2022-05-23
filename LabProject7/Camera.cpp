@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+#define _XM_NO_INNTRINSICS_
+
 CCamera::CCamera() {
 	m_xmf4x4View = Matrix4x4::Identity();
 	m_xmf4x4Projection = Matrix4x4::Identity();
@@ -28,6 +30,7 @@ void CCamera::SetScissorRect(LONG xLeft, LONG yTop, LONG xRight, LONG yBottom) {
 
 void CCamera::GenerateProjectionMatrix(float fNearPlaneDistance,
 	float fFarPlaneDistance, float fAspectRatio, float fFOVAngle) {
+	
 	m_xmf4x4Projection = Matrix4x4::PerspectiveFovLH(XMConvertToRadians(fFOVAngle),
 		fAspectRatio, fNearPlaneDistance, fFarPlaneDistance);
 }
@@ -49,8 +52,7 @@ void CCamera::UpdateShaderVariables(ID3D12GraphicsCommandList* pd3dCommandList) 
 	pd3dCommandList->SetGraphicsRoot32BitConstants(1, 16, &xmf4x4View, 0);
 
 	XMFLOAT4X4 xmf4x4Projection;
-	XMStoreFloat4x4(&xmf4x4Projection,
-		XMMatrixTranspose(XMLoadFloat4x4(&m_xmf4x4Projection)));
+	XMStoreFloat4x4(&xmf4x4Projection, XMMatrixTranspose(XMLoadFloat4x4(&m_xmf4x4Projection)));
 	pd3dCommandList->SetGraphicsRoot32BitConstants(1, 16, &xmf4x4Projection, 16);
 }
 

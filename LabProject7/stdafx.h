@@ -192,15 +192,15 @@ namespace Matrix4x4
 		return xmmtx4x4Result;
 	}
 
-	inline XMFLOAT4X4 Multiply(XMMATRIX& xmmtxMatrix1, XMFLOAT4X4& xmmtx4x4Matrix2) {
-		XMFLOAT4X4 xmmtx4x4Result;
-		XMStoreFloat4x4(&xmmtx4x4Result, xmmtxMatrix1 * XMLoadFloat4x4(&xmmtx4x4Matrix2));
-		return xmmtx4x4Result;
-	}
-
 	inline XMFLOAT4X4 Multiply(XMFLOAT4X4& xmmtx4x4Matrix1, XMMATRIX& xmmtx4x4Matrix2) {
 		XMFLOAT4X4 xmmtx4x4Result;
 		XMStoreFloat4x4(&xmmtx4x4Result, XMLoadFloat4x4(&xmmtx4x4Matrix1) * xmmtx4x4Matrix2);
+		return xmmtx4x4Result;
+	}
+
+	inline XMFLOAT4X4 Multiply(XMMATRIX& xmmtxMatrix1, XMFLOAT4X4& xmmtx4x4Matrix2) {
+		XMFLOAT4X4 xmmtx4x4Result;
+		XMStoreFloat4x4(&xmmtx4x4Result, xmmtxMatrix1 * XMLoadFloat4x4(&xmmtx4x4Matrix2));
 		return xmmtx4x4Result;
 	}
 
@@ -213,8 +213,7 @@ namespace Matrix4x4
 
 	inline XMFLOAT4X4 Transpose(XMFLOAT4X4& xmmtx4x4Matrix) {
 		XMFLOAT4X4 xmmtx4x4Result;
-		XMStoreFloat4x4(&xmmtx4x4Result,
-			XMMatrixTranspose(XMLoadFloat4x4(&xmmtx4x4Matrix)));
+		XMStoreFloat4x4(&xmmtx4x4Result, XMMatrixTranspose(XMLoadFloat4x4(&xmmtx4x4Matrix)));
 		return xmmtx4x4Result;
 	}
 	

@@ -2,35 +2,37 @@
 #include "GameFramework.h"
 
 CGameFramework::CGameFramework() {
-	m_pdxgiFactory = nullptr;
-	m_pdxgiSwapChain = nullptr;
-	m_pd3dDevice = nullptr;
+	m_pdxgiFactory = NULL;
+	m_pdxgiSwapChain = NULL;
+	m_pd3dDevice = NULL;
 
-	m_pd3dCommandAllocator = nullptr;
-	m_pd3dCommandQueue = nullptr;
-	m_pd3dPipelineState = nullptr;
-	m_pd3dCommandList = nullptr;
+	m_pd3dCommandAllocator = NULL;
+	m_pd3dCommandQueue = NULL;
+	m_pd3dCommandList = NULL;
+	//m_pd3dPipelineState = NULL;
 
 	for (int i = 0; i < m_nSwapChainBuffers; ++i)
-		m_ppd3dSwapChainBackBuffers[i] = nullptr;
-	m_pd3dRtvDescriptorHeap = nullptr;
-	m_nRtvDescriptorIncrementSize = 0;
+		m_ppd3dSwapChainBackBuffers[i] = NULL;
+	m_nSwapChainBufferIndex = 0;
 
-	m_pd3dDepthStencilBuffer = nullptr;
-	m_pd3dDsvDescriptorHeap = nullptr;
+	m_pd3dRtvDescriptorHeap = NULL;
+	m_pd3dDsvDescriptorHeap = NULL;
+
+	m_nRtvDescriptorIncrementSize = 0;
 	m_nDsvDescriptorIncrementSize = 0;
 
-	m_nSwapChainBufferIndex = 0;
+	//m_pd3dDepthStencilBuffer = NULL;
 	
-	m_hFenceEvent = nullptr;
-	m_pd3dFence = nullptr;
+	m_hFenceEvent = NULL;
+	m_pd3dFence = NULL;
 	for (int i = 0; i < m_nSwapChainBuffers; ++i)
 		m_nFenceValues[i] = 0;
-	m_pScene = nullptr;
 
 	m_nWndClientWidth = FRAME_BUFFER_WIDTH;
 	m_nWndClientHeight = FRAME_BUFFER_HEIGHT;
 
+	m_pScene = NULL;
+	
 	_tcscpy_s(m_pszFrameRate, _T("LabProject ("));
 }
 
@@ -47,7 +49,7 @@ bool CGameFramework::OnCreate(HINSTANCE hInstance, HWND hMainWnd) {
 	CreateCommandQueueAndList();
 	CreateRtvAndDsvDescriptorHeaps();
 	CreateSwapChain();
-	CreateRenderTargetViews();
+	//CreateRenderTargetViews();
 	CreateDepthStencilView();
 
 	// 렌더링할 게임 객체를 생성한다.
@@ -349,7 +351,7 @@ void CGameFramework::CreateDirect3DDevice() {
 		(void**)&m_pdxgiFactory);
 
 	// 모든 하드웨어 어댑터에 대하여 특성 레벨 12.0을 지원하는 하드웨어 디바이스를 생성한다.
-	IDXGIAdapter1* pd3dAdapter = nullptr;
+	IDXGIAdapter1* pd3dAdapter = NULL;
 	for (UINT i = 0; DXGI_ERROR_NOT_FOUND != m_pdxgiFactory->EnumAdapters1(i, &pd3dAdapter); ++i) {
 		DXGI_ADAPTER_DESC1 dxgiAdapaterDesc;
 		pd3dAdapter->GetDesc1(&dxgiAdapaterDesc);
