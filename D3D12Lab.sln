@@ -3,29 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject0", "LabProject0\LabProject0.vcxproj", "{09057E73-C729-423C-B640-15B179358612}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject00", "LabProject0\LabProject0.vcxproj", "{09057E73-C729-423C-B640-15B179358612}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject1", "LabProject1\LabProject1.vcxproj", "{A36E43B7-526F-4026-9B74-86691FE73798}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject01", "LabProject1\LabProject1.vcxproj", "{A36E43B7-526F-4026-9B74-86691FE73798}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject2-1", "LabProject2-1\LabProject2-1.vcxproj", "{DC88A9CF-9B2A-4CE5-99CF-9B38A871C79B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject02-01", "LabProject2-1\LabProject2-1.vcxproj", "{DC88A9CF-9B2A-4CE5-99CF-9B38A871C79B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject3", "LabProject3\LabProject3.vcxproj", "{0C9DE389-B07A-448A-9F67-A2CF19CF7D9D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject03", "LabProject3\LabProject3.vcxproj", "{0C9DE389-B07A-448A-9F67-A2CF19CF7D9D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject2", "LabProject2\LabProject2.vcxproj", "{98FB1FCF-C7C6-4BC7-9C51-84365FDB6E20}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject02", "LabProject2\LabProject2.vcxproj", "{98FB1FCF-C7C6-4BC7-9C51-84365FDB6E20}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject4", "LabProject4\LabProject4.vcxproj", "{E169C455-438B-42B7-B8E4-A90DBFD4FC1B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject04", "LabProject4\LabProject4.vcxproj", "{E169C455-438B-42B7-B8E4-A90DBFD4FC1B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject5", "LabProject5\LabProject5.vcxproj", "{CB7653DA-96FF-434D-B93A-D3950D112A90}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject05", "LabProject5\LabProject5.vcxproj", "{CB7653DA-96FF-434D-B93A-D3950D112A90}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject5-1", "LabProject5-1\LabProject5-1.vcxproj", "{1B054302-E3BC-4172-8B79-EA2EBAD609DE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject05-01", "LabProject5-1\LabProject5-1.vcxproj", "{1B054302-E3BC-4172-8B79-EA2EBAD609DE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject6", "LabProject6\LabProject6.vcxproj", "{56345973-7BBE-4F2C-B93D-75F2465CEBBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject06", "LabProject6\LabProject6.vcxproj", "{56345973-7BBE-4F2C-B93D-75F2465CEBBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject7", "LabProject7\LabProject7.vcxproj", "{3796817A-6EA7-4873-ADC6-5F5715960596}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject07", "LabProject7\LabProject7.vcxproj", "{3796817A-6EA7-4873-ADC6-5F5715960596}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject8", "LabProject8\LabProject8.vcxproj", "{7446BA83-925C-4BB1-889C-DF1681735D83}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject08", "LabProject8\LabProject8.vcxproj", "{7446BA83-925C-4BB1-889C-DF1681735D83}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject9", "LabProject9\LabProject9.vcxproj", "{878CB54D-D6FE-49C2-861F-DBA0C04CAE76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject09", "LabProject9\LabProject9.vcxproj", "{878CB54D-D6FE-49C2-861F-DBA0C04CAE76}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject14", "LabProject14\LabProject14.vcxproj", "{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,14 @@ Global
 		{878CB54D-D6FE-49C2-861F-DBA0C04CAE76}.Release|x64.Build.0 = Release|x64
 		{878CB54D-D6FE-49C2-861F-DBA0C04CAE76}.Release|x86.ActiveCfg = Release|Win32
 		{878CB54D-D6FE-49C2-861F-DBA0C04CAE76}.Release|x86.Build.0 = Release|Win32
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Debug|x64.ActiveCfg = Debug|x64
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Debug|x64.Build.0 = Debug|x64
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Debug|x86.ActiveCfg = Debug|Win32
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Debug|x86.Build.0 = Debug|Win32
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Release|x64.ActiveCfg = Release|x64
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Release|x64.Build.0 = Release|x64
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Release|x86.ActiveCfg = Release|Win32
+		{B86843B9-9C42-4FF6-AEB2-6D2C15463C9E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
