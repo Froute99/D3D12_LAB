@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Timer.h"
 #include "Camera.h"
+#include "Player.h"
 
 class CGameFramework {
 public:
@@ -63,6 +64,11 @@ private:
 	CScene* m_pScene = NULL;
 public:
 	CCamera* m_pCamera = NULL;
+	// 플레이어 객체에 대한 포인터이다.
+	CPlayer* m_pPlayer = NULL;
+
+	// 마지막으로 마우스 버튼을 클릭할 때의 마우스 커서의 위치이다.
+	POINT m_ptOldCursorPos;
 
 	// 프레임워크를 초기화하는 함수이다(주 윈도우가 생성되면 호출된다)
 	bool OnCreate(HINSTANCE hInstance, HWND hMainWnd);
