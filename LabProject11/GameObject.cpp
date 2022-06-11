@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Shader.h"
+#include "Camera.h"
 #include "GameObject.h"
 
 CGameObject::CGameObject() {

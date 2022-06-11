@@ -1,8 +1,8 @@
-
 #pragma once
 #include "Scene.h"
 #include "Timer.h"
 #include "Camera.h"
+#include "Player.h"
 
 class CGameFramework {
 public:
@@ -63,6 +63,9 @@ private:
 	CScene* m_pScene = NULL;
 public:
 	CCamera* m_pCamera = NULL;
+	CPlayer* m_pPlayer = NULL;
+
+	POINT m_ptOldCursorPos;
 
 	// 프레임워크를 초기화하는 함수이다(주 윈도우가 생성되면 호출된다)
 	bool OnCreate(HINSTANCE hInstance, HWND hMainWnd);

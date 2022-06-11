@@ -2,6 +2,7 @@
 #include "Mesh.h"
 
 class CShader;
+class CCamera;
 
 class CGameObject
 {

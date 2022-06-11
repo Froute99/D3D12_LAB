@@ -131,9 +131,15 @@ namespace Vector3
 		return xmf3Result.x;
 	}
 
-	inline float Angle(XMVECTOR& xmvVector1, XMVECTOR& xmvVector2) {
+	inline float Angle(XMVECTOR& xmvVector1, XMVECTOR& xmvVector2)
+	{
 		XMVECTOR xmvAngle = XMVector3AngleBetweenNormals(xmvVector1, xmvVector2);
 		return XMConvertToDegrees(acosf(XMVectorGetX(xmvAngle)));
+	}
+
+	inline float Angle(XMFLOAT3& xmf3Vector1, XMFLOAT3& xmf3Vector2)
+	{
+		return Angle(XMLoadFloat3(&xmf3Vector1), XMLoadFloat3(&xmf3Vector2));
 	}
 
 	inline XMFLOAT3 TransformNormal(XMFLOAT3& xmf3Vector, XMMATRIX& xmmtxTransform) {
