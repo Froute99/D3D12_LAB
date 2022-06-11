@@ -18,6 +18,7 @@ public:
 
 protected:
 	XMFLOAT4X4 m_xmf4x4World;
+
 	CMesh** m_ppMeshes = NULL;
 	int m_nMeshes = 0;
 
@@ -83,8 +84,7 @@ class CHeightMapTerrain : public CGameObject
 public:
 	CHeightMapTerrain(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* pd3dCommandList,
 		ID3D12RootSignature* pd3dGraphicsRootSignautre, LPCTSTR pFileName,
-		int nWidth, int nLength, int nBlockWidth, int nBlockLength, XMFLOAT3 xmf3Scale,
-		XMFLOAT4 xmf4Color);
+		int nWidth, int nLength, int nBlockWidth, int nBlockLength, XMFLOAT3 xmf3Scale, XMFLOAT4 xmf4Color);
 	virtual ~CHeightMapTerrain();
 
 private:

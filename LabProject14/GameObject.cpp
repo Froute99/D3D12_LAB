@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "GameObject.h"
 #include "Shader.h"
@@ -16,7 +15,8 @@ CGameObject::CGameObject(int nMeshes)
 	}
 }
 
-CGameObject::~CGameObject() {
+CGameObject::~CGameObject()
+{
 	if (m_ppMeshes)
 	{
 		for (int i = 0; i < m_nMeshes; ++i)
@@ -131,7 +131,8 @@ void CGameObject::OnPrepareRender() {
 
 }
 
-void CGameObject::Render(ID3D12GraphicsCommandList* pd3dCommandList, CCamera* pCamera) {
+void CGameObject::Render(ID3D12GraphicsCommandList* pd3dCommandList, CCamera* pCamera)
+{
 	OnPrepareRender();
 
 	UpdateShaderVariables(pd3dCommandList);
