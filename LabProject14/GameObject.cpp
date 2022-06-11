@@ -62,12 +62,10 @@ void CGameObject::SetMesh(int nIndex, CMesh* pMesh) {
 void CGameObject::CreateShaderVariables(ID3D12Device* pd3dDevice,
 	ID3D12GraphicsCommandList* pd3dCommandList)
 {
-
 }
 
 void CGameObject::ReleaseShaderVariables()
 {
-
 }
 
 void CGameObject::UpdateShaderVariables(ID3D12GraphicsCommandList* pd3dCommandList)

@@ -58,46 +58,23 @@ extern ID3D12Resource* CreateBufferResource(ID3D12Device* pd3dDevice,
 	ID3D12Resource** ppd3dUploadBuffer = NULL);
 
 
-#define EPSILON		1.0e-10f
-
-inline bool IsZero(float fValue) { return fabsf(fValue) < EPSILON; }
-inline bool IsEqual(float fA, float fB) { return (::IsZero(fA - fB)); }
-inline float InverseSqrt(float fValue) { return 1.0f / sqrtf(fValue); }
-inline void Swap(float* pfs, float* pfT) { float fTemp = *pfs; *pfs = *pfT; *pfT = fTemp; }
-
-
 // 3차원 벡터의 연산
 namespace Vector3
 {
-	inline bool IsZero(XMFLOAT3& xmf3Vector)
-	{
-		if (::IsZero(xmf3Vector.x) && ::IsZero(xmf3Vector.y) && ::IsZero(xmf3Vector.z))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	inline XMFLOAT3 XMVectorToFloat3(XMVECTOR& xmvVector)
-	{
+	inline XMFLOAT3 XMVectorToFloat3(XMVECTOR& xmvVector) {
 		XMFLOAT3 xmf3Result;
 		XMStoreFloat3(&xmf3Result, xmvVector);
 		return xmf3Result;
 	}
 
 	inline XMFLOAT3 ScalarProduct(XMFLOAT3& xmf3Vector, float fScalar,
-		bool bNormalize = true)
-	{
+		bool bNormalize = true) {
 		XMFLOAT3 xmf3Result;
 		if (bNormalize)
-		{
 			XMStoreFloat3(&xmf3Result,
 				XMVector3Normalize(XMLoadFloat3(&xmf3Vector)) * fScalar);
-		}
 		else
-		{
 			XMStoreFloat3(&xmf3Result, XMLoadFloat3(&xmf3Vector) * fScalar);
-		}
 		return xmf3Result;
 	}
 
@@ -157,11 +134,6 @@ namespace Vector3
 	inline float Angle(XMVECTOR& xmvVector1, XMVECTOR& xmvVector2) {
 		XMVECTOR xmvAngle = XMVector3AngleBetweenNormals(xmvVector1, xmvVector2);
 		return XMConvertToDegrees(acosf(XMVectorGetX(xmvAngle)));
-	}
-
-	inline float Angle(XMFLOAT3& xmf3Vector1, XMFLOAT3& xmf3Vector2)
-	{
-		return Angle(XMLoadFloat3(&xmf3Vector1), XMLoadFloat3(&xmf3Vector2));
 	}
 
 	inline XMFLOAT3 TransformNormal(XMFLOAT3& xmf3Vector, XMMATRIX& xmmtxTransform) {
