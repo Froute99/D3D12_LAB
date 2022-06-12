@@ -402,7 +402,7 @@ CTerrainPlayer::CTerrainPlayer(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandLi
 	/* 플레이어의 위치를 지형의 가운데(y - 축 좌표는 지형의 높이보다 1500 높게)로 설정한다. 플레이어
 	위치 벡터의 y-좌표가 지형의 높이보다 크고 중력이 작용하도록 플레이어를 설정하였으므로 플레이어는 점차적으로 하강하게 된다. */
 	float fHeight = pTerrain->GetHeight(pTerrain->GetWidth() * 0.5f, pTerrain->GetLength() * 0.5f);
-	SetPosition(XMFLOAT3(pTerrain->GetWidth() * 0.5f, fHeight + 500.0f, pTerrain->GetLength() * 0.5f));
+	SetPosition(XMFLOAT3(pTerrain->GetWidth() * 0.5f, fHeight + 100.0f, pTerrain->GetLength() * 0.5f));
 	// 플레이어의 위치가 변경될 때 지형의 정보에 따라 플레이어의 위치를 변경할 수 있도록 설정한다.
 	SetPlayerUpdatedContext(pTerrain);
 	// 카메라의 위치가 변경될 때 지형의 정보에 따라 카메라의 위치를 변경할 수 있도록 설정한다.
@@ -452,10 +452,10 @@ CCamera* CTerrainPlayer::ChangeCamera(DWORD nNewCameraMode, float fTimeElapsed)
 		m_pCamera->GenerateProjectionMatrix(1.01f, 50000.0f, ASPECT_RATIO, 60.0f);
 		break;
 	case THIRD_PERSON_CAMERA:
-		SetFriction(250.0f);
+		SetFriction(10.0f);
 		// 3인칭 카메라일 때 플레이어에 y-축 방향으로 중력이 작용한다.
 		SetGravity(XMFLOAT3(0.0f, -250.0f, 0.0f));
-		SetMaxVelocityXZ(300.0f);
+		SetMaxVelocityXZ(150.0f);
 		SetMaxVelocityY(400.0f);
 		m_pCamera = OnChangeCamera(THIRD_PERSON_CAMERA, nCurrentCameraMode);
 		m_pCamera->SetTimeLag(0.25f);
