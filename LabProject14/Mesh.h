@@ -109,7 +109,7 @@ class CHeightMapImage
 	// 높이 맵 이미지의 가로와 세로 크기이다.
 	int m_nWidth;
 	int m_nLength;
-	// 높이 맵 이미지를 실제로 몇 배 확재하여 사용할 것인가를 나타내는 스케일 벡터이다.
+	// 높이 맵 이미지를 실제로 몇 배 확대하여 사용할 것인가를 나타내는 스케일 벡터이다.
 	XMFLOAT3 m_xmf3Scale;
 
 public:
