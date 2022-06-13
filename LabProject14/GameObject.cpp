@@ -165,9 +165,9 @@ void CRotatingObject::Animate(float fTimeElapsed)
 	CGameObject::Rotate(&m_xmfRotationAxis, m_fRotationSpeed * fTimeElapsed);
 }
 
-CHeightMapTerrain::CHeightMapTerrain(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* pd3dCommandList, ID3D12RootSignature* pd3dGraphicsRootSignautre,
-	LPCTSTR pFileName, int nWidth, int nLength, int nBlockWidth, int nBlockLength,
-	XMFLOAT3 xmf3Scale, XMFLOAT4 xmf4Color) : CGameObject(0)
+CHeightMapTerrain::CHeightMapTerrain(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* pd3dCommandList,
+	ID3D12RootSignature* pd3dGraphicsRootSignautre, LPCTSTR pFileName, int nWidth, int nLength,
+	int nBlockWidth, int nBlockLength, XMFLOAT3 xmf3Scale, XMFLOAT4 xmf4Color) : CGameObject(0)
 {
 	// 지형에 사용할 높이 맵의 가로, 세로의 크기이다.
 	m_nWidth = nWidth;
